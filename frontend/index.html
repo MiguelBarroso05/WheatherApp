@@ -4,54 +4,66 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Previsão do Tempo</title>
+    <title>Weather Forecast</title>
 
-    <!-- Fontes -->
+    <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700|Open+Sans:400,600" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 
-    <!-- Estilo e Bootstrap -->
+    <!-- bootstrap and css -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
 
-  <body>
-    <!-- Cabeçalho -->
-    <header class="bg-dark text-white py-3">
+  <body style="background-image: url('assets/imgs/banner.jpg'); background-size: cover; background-repeat: no-repeat;">
+    <!-- navbar -->
+    <header class="text-white py-3">
       <div class="container d-flex justify-content-between align-items-center">
         <div class="logo">
-          <h1>Previsão do Tempo</h1>
+          <h1>Weather Forecast</h1>
         </div>
         <nav>
           <ul class="nav">
             <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="#">Sobre</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="#">Contato</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="#">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <!-- Hero Section (Banner) -->
-    <section class="hero bg-dark text-white py-5" style="background-image: url('images/banner.jpg'); background-size: cover;">
+    <!-- search box -->
+    <section class="hero text-white py-5">
       <div class="container text-center">
         <form id="weatherForm" class="form-inline justify-content-center">
-          <input type="text" id="locationInput" class="form-control mb-2 mr-sm-2" placeholder="Digite sua localização..." required />
-          <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+          <input type="text" id="locationInput" class="form-control mb-2 col-12 col-md-10" placeholder="Type a city name..." required />
+          <button type="submit" class="btn btn-primary mb-2 col-12 col-md-2">Search</button>
         </form>
-        <button id="geoButton" class="btn btn-warning mb-2 mt-2">Usar Geolocalização</button>
       </div>
     </section>
 
-    <!-- Previsão de Tempo -->
+    <section id="mapOverlay" class="map-overlay d-flex justify-content-center align-items-center flex-column">
+      <div class="w-100 text-center col-10 col-md-12">
+          <img src="./assets/imgs/geo.jpg" alt="map" class="map-image img-fluid">
+          <button id="locationButton" class="btn btn-primary btn-lg mt-3 location-button">Use my location</button>
+      </div>
+    </section>  
+
+    <!-- weather prediction and forcast -->
     <section id="weatherResults" class="container mt-5">
-      <!-- Os dados de previsão irão aparecer aqui -->
+        <div class="row" id="weatherContainer">
+        </div>
     </section>
 
-    <!-- Rodapé -->
+    <!-- Cidades mais pesquisadas -->
+    <section id="topSearches" class="container mt-5">
+      <h3>Most researched city</h3>
+    </section>
+
+    <!-- footer -->
     <footer class="bg-dark text-white py-4 mt-5">
       <div class="container text-center">
-        <p>&copy; 2024 Previsão do Tempo - Todos os direitos reservados</p>
+        <p>&copy; 2024 Weather Forecast - All rights reserved</p>
       </div>
     </footer>
 
@@ -59,6 +71,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>

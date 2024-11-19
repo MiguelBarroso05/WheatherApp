@@ -1,52 +1,33 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
-const knex = require('../db'); // Importando o knex
+const knex = require('../db');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const { location } = req.query;
+    const { location, lat, lon } = req.query;
+
+    let query;
+    if (lat && lon) {
+        query = `${lat},${lon}`; // Usa latitude e longitude
+    } else if (location) {
+        query = location; // Usa o nome da cidade se fornecido
+    } else {
+        return res.status(400).json({ error: 'Localização ou coordenadas são obrigatórias.' });
+    }
 
     try {
-        const apiKey = 'ff2c5b0af98847fc9e8203912241511'; // Substitua pela sua chave de API
-        const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`);
+        const apiKey = process.env.WEATHER_API_KEY;
+        const currentWeather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${query}`);
+        const forecast = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${query}&days=4`);
 
-        // Salvar no histórico de buscas
-        const [existingSearch] = await knex('search_history')
-            .where('city', location)
-            .select('*');
-
-        if (existingSearch) {
-            // Se a cidade já existe no histórico, incrementa a contagem
-            await knex('search_history')
-                .where('id', existingSearch.id)
-                .update({ search_count: existingSearch.search_count + 1 });
-        } else {
-            // Se não existe, insere uma nova entrada
-            await knex('search_history').insert({ city: location });
-        }
-
-        res.json(response.data);
+        res.json({
+            currentWeather: currentWeather.data,
+            forecast: forecast.data
+        });
     } catch (error) {
         console.error('Erro ao buscar dados da API de previsão:', error);
         res.status(500).json({ error: 'Erro ao buscar previsão do tempo' });
     }
 });
-
-// Rota para buscar as cidades mais pesquisadas
-router.get('/top-searches', async (req, res) => {
-    try {
-        const topSearches = await knex('search_history')
-            .select('city')
-            .count('city as count')
-            .groupBy('city')
-            .orderBy('count', 'desc')
-            .limit(5);
-
-        res.json(topSearches);
-    } catch (error) {
-        console.error('Erro ao buscar as cidades mais pesquisadas:', error);
-        res.status(500).json({ error: 'Erro ao buscar as cidades mais pesquisadas.' });
-    }
-});
-
 module.exports = router;
