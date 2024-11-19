@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Previsão do Tempo</title>
+
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700|Open+Sans:400,600" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+
+    <!-- Estilo e Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Cabeçalho -->
+    <header class="bg-dark text-white py-3">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="logo">
+          <h1>Previsão do Tempo</h1>
+        </div>
+        <nav>
+          <ul class="nav">
+            <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="#">Sobre</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="#">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section (Banner) -->
+    <section class="hero bg-dark text-white py-5" style="background-image: url('images/banner.jpg'); background-size: cover;">
+      <div class="container text-center">
+        <form id="weatherForm" class="form-inline justify-content-center">
+          <input type="text" id="locationInput" class="form-control mb-2 mr-sm-2" placeholder="Digite sua localização..." required />
+          <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+        </form>
+        <button id="geoButton" class="btn btn-warning mb-2 mt-2">Usar Geolocalização</button>
+      </div>
+    </section>
+
+    <!-- Previsão de Tempo -->
+    <section id="weatherResults" class="container mt-5">
+      <!-- Os dados de previsão irão aparecer aqui -->
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container text-center">
+        <p>&copy; 2024 Previsão do Tempo - Todos os direitos reservados</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
