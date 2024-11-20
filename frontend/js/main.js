@@ -1,20 +1,20 @@
 document.getElementById('weatherForm').addEventListener('submit', async function (event) {
     event.preventDefault(); // Impede o envio padrão do formulário
     const location = document.getElementById('locationInput').value;
-
     try {
         // Faz a requisição para o backend (com dados para o clima atual e previsão)
         const response = await fetch(`http://localhost:3001/api/weather?location=${location}`);
-        await fetch(`http://localhost:3001/api/mostSearchedCity/insert?city=${location}`);
-
+        //const response2 = await fetch(`http://localhost:3001/api/mostSearchedCity/insert?city=${location}`);
+        //console.log(await response2.json());
         const data = await response.json();
 
         if (data && data.currentWeather && data.forecast) {
             // Exibe as informações do clima atual no primeiro card
-            displayWeatherData(data.currentWeather.current, data.currentWeather.location);
+           displayWeatherData(data.currentWeather.current, data.currentWeather.location);
 
             // Exibe a previsão para os próximos 3 dias
-            displayForecast(data.forecast.forecast);
+           displayForecast(data.forecast.forecast);
+            
         } else {
             throw new Error('Dados incompletos recebidos da API');
         }
@@ -76,10 +76,11 @@ function displayForecast(forecast) {
 
 window.onload = async () => {
     const location = await fetch(`http://localhost:3001/api/mostSearchedCity`);
-    const locationJson = await location.json();
+    let locationJson = await location.json();
+    locationJson = locationJson[0].city.replace(/_/g, ' ')
     console.log(locationJson);
     try {
-        const response = await fetch(`http://localhost:3001/api/weather?location=${location}`);
+        const response = await fetch(`http://localhost:3001/api/weather?location=${locationJson}`);
         const data = await response.json();
         console.log(data); // Processa os dados conforme necessário
         displayMostSearchedCity(data.currentWeather)
