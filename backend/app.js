@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/api/weather', weatherRouter);
 app.use('/api/mostSearchedCity', topSearchedCity);
 
-// Inicializa o servidor
+// Initialize Server
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -1,49 +1,79 @@
+// Runs when the page loads
 window.onload = () => {
-    loadLastSearchedCity();
+    loadLastSearchedCity(); // Load the last searched city from localStorage
 };
 
 
+// Loads the weather data for the last searched city stored in localStorage
 async function loadLastSearchedCity() {
     const location = localStorage.getItem('lastcity');
 
     try {
         const response = await fetch(`http://localhost:3001/api/weather?location=${location}`);
-        const data = await response.json();
 
-        displayLastSearchedCity(data.currentWeather);
-        setWeatherBackground(data.currentWeather.current.condition.text.toLowerCase());
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        displayLastSearchedCity(data.currentWeather); // Display the data for the last searched city
+        setWeatherBackground(data.currentWeather.current.condition.text.toLowerCase()); // Set background based on condition
     } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
+        console.error('Error fetching the last searched city weather data:', error);
     }
 }
 
 
+/*
+    Event listener for the search form submission.
+    Fetches and displays weather data based on user input.
+*/
 document.getElementById('weatherForm').addEventListener('submit', async function (event) {
     event.preventDefault(); 
     const location = document.getElementById('locationInput').value;
 
+    if (!location) {
+        console.warn("No location entered.");
+        return;
+    }
+
     try {
         const response = await fetch(`http://localhost:3001/api/weather?location=${location}`);
-        localStorage.setItem('lastcity', location);
-        const response2 = await fetch(`http://localhost:3001/api/mostSearchedCity/insert?city=${location}`);
-        console.log(await response2.json());
+        
+        if (!response.ok)
+            throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+
         const data = await response.json();
 
         if (data && data.currentWeather && data.forecast) {
+            localStorage.setItem('lastcity', location); // Save the location in localStorage
             displayWeatherData(data.currentWeather.current, data.currentWeather.location); 
             displayForecast(data.forecast.forecast); 
-            addFavorite(data.currentWeather.location.name) 
-        }
-        else {
+            addFavorite(data.currentWeather.location.name); // Add to favorites
+        } 
+        else 
             throw new Error('Dados incompletos recebidos da API');
+    } 
+    catch (error) {
+        // Display error message to the user
+          
+        if (error.message.startsWith('Error HTTP:')) {
+            errorMessage = `Error on API: ${error.message}`;
         }
-    } catch (error) {
-        console.error('Erro ao buscar previsão do tempo:', error);
-        document.getElementById('weatherResults').innerHTML = '<p class="text-danger">Erro ao buscar dados da previsão. Tente novamente mais tarde.</p>';
-    }
+
+        document.getElementById('weatherResults').innerHTML = `<div class="col-12 col-md-12 mb-4">
+                                                                    <div class="card bg-dark text-white text-center p-4 shadow-lg">
+                                                                        <p class="text-danger" style="font-size: 1.7rem">${errorMessage}</p>
+                                                                    </div>
+                                                                </div>`;    
+        }
 });
 
 
+/*
+    Event listener for geolocation button click.
+    Fetches and displays weather data based on the user's location.
+*/
 document.getElementById('locationButton').addEventListener('click', async function () {
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -61,36 +91,39 @@ document.getElementById('locationButton').addEventListener('click', async functi
                         displayForecast(data.forecast.forecast);
                         addFavorite(data.currentWeather.location.name)
                     } 
-                    else {
-                        throw new Error('Dados incompletos recebidos da API');
-                    }
-                } catch (error) {
-                    console.error('Erro ao buscar previsão do tempo por localização:', error);
-                    document.getElementById('weatherResults').innerHTML = '<p class="text-danger">Erro ao buscar previsão baseada na localização. Tente novamente mais tarde.</p>';
+                    else
+                        throw new Error('Incomplete data received from API.');
+                } 
+                catch (error) {
+                    document.getElementById('weatherResults').innerHTML = `
+                        <p class="text-danger">Error fetching location-based weather data. Please try again later.</p>`;
                 }
             },
             (error) => {
+                // Handle geolocation errors
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        console.error("Permissão de localização negada.");
+                        console.error("Location access denied.");
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        console.error("Localização indisponível.");
+                        console.error("Location information is unavailable.");
                         break;
                     case error.TIMEOUT:
-                        console.error("Tempo para obter a localização expirou.");
+                        console.error("The request to get user location timed out.");
                         break;
                     default:
-                        console.error("Erro desconhecido ao obter a localização.");
+                        console.error("An unknown error occurred while fetching location.");
                 }
             }
         );
-    } else {
-        alert("Geolocalização não suportada pelo navegador.");
+    } 
+    else {
+        alert("Geolocation is not supported by your browser.");
     }
 });
 
 
+// Displays the weather based on the search input from weather_api
 function displayWeatherData(current, location) {
     const weatherContainer = document.getElementById('weatherContainer');
     const conditionText = current.condition.text.toLowerCase();
@@ -131,6 +164,7 @@ function displayWeatherData(current, location) {
 }
 
 
+// Displays the weather based on the forcats from weather_api
 function displayForecast(forecast) {
     const weatherContainer = document.getElementById('weatherContainer');
 
@@ -160,6 +194,7 @@ function displayForecast(forecast) {
 }
 
 
+// Displays the weather for the last city searched after refresh based on the forcast from weather_api
 function displayLastSearchedCity(forecast) {
     const weatherContainer = document.getElementById('lastSearchedCity');
 
@@ -188,6 +223,7 @@ function displayLastSearchedCity(forecast) {
 }
 
 
+// Adds or removes a city from the favorites list in localStorage
 function addFavorite(city) {
     const favoriteIcon = document.getElementById('favoriteIcon');
 
@@ -202,20 +238,23 @@ function addFavorite(city) {
         try {
             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-            if (favorites.includes(city)) {
+            if (favorites.includes(city))
                 favorites = favorites.filter(item => item !== city);
-            } else {
+            else
                 favorites.push(city);
-            }
 
             localStorage.setItem('favorites', JSON.stringify(favorites));
             updateFavoriteIconColor(favorites.includes(city));
-        } catch (error) {
-            console.error('Erro ao processar os favoritos armazenados:', error);
+        } 
+        catch (error) {
+            console.error('Error processing favorites in localStorage:', error);
         }
     });
 }
 
+
+
+// Updates the favorite icon color dynamically
 function updateFavoriteIconColor(isFavorite) {
     const favoriteIcon = document.getElementById('favoriteIcon');
     if (favoriteIcon) {
@@ -224,6 +263,7 @@ function updateFavoriteIconColor(isFavorite) {
 }
 
 
+// Dynamically sets the background of the application based on weather conditions.
 function setWeatherBackground(conditionText) {
     const body = document.body;
     body.className = 'd-flex flex-column';

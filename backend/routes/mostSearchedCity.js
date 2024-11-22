@@ -4,48 +4,52 @@ const knex = require("../db");
 const router = express.Router();
 
 
-// Endpoint para adicionar ou atualizar uma cidade no histórico
+// Route to add or update a city in the search history
 router.get("/insert", async (req, res) => {
   let { city } = req.query;
-  if (!city) {
-    return res.status(400).send({ error: "City não fornecida." });
-  }
+
+  if (!city)
+    return res.status(400).send({ error: "City is required." });  // 400 Bad Request
 
   city = city.trim().toLowerCase().replace(/\s+/g, "_");
 
   try {
-    // Verifica se a cidade já existe
+    // Check if the city already exists in the database
     const existingCity = await knex("search_history").where({ city }).first();
 
     if (existingCity) {
-      // Incrementa o search_count em 1 se a cidade já existir
+      // Increment the search count if the city exists
       await knex("search_history")
         .where({ city })
         .increment("search_count", 1);
-    } else {
-      // Insere uma nova entrada se a cidade não existir
+    } 
+    else {
+      // Insert a new record if the city does not exist
       await knex("search_history").insert({ city, search_count: 1 });
     }
 
-    res.status(200).send({ success: "Operação concluída com sucesso." });
-  } catch (error) {
-    console.error("Erro ao processar a requisição:", error);
-    res.status(500).send({ error: "Erro ao processar a requisição." });
+    res.status(200).send({ success: "City successfully added/updated." }); // 200 OK
+  } 
+  catch (error) {
+    // Return a 500 Internal Server Error for unexpected issues
+    res.status(500).json({ error: "An error occurred while processing the request." });
   }
 });
 
-// ** Novo Endpoint para obter as cidades mais pesquisadas ** //
+// Route to retrieve the top 10 most searched cities
 router.get("/top-cities", async (req, res) => {
   try {
+    // Fetch the top 10 cities ordered by search count in descending order
     const topCities = await knex("search_history")
       .select("*")
       .orderBy("search_count", "desc")
-      .limit(10); // Obtém as 5 cidades mais pesquisadas
+      .limit(10);
 
     res.status(200).send(topCities);
-  } catch (error) {
-    console.error("Erro ao buscar as cidades mais pesquisadas:", error);
-    res.status(500).send({ error: "Erro ao buscar as cidades mais pesquisadas." });
+  } 
+  catch (error) {
+    // Return a 500 Internal Server Error for unexpected issues
+    res.status(500).json({ error: "An error occurred while fetching the most searched cities." });
   }
 });
 
