@@ -1,18 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
-const knex = require('../db');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     const { location, lat, lon } = req.query;
-
     let query;
+    
     if (lat && lon) {
         query = `${lat},${lon}`; // Usa latitude e longitude
-    } else if (location) {
+    } 
+    else if (location) {
         query = location; // Usa o nome da cidade se fornecido
-    } else {
+    } 
+    else {
         return res.status(400).json({ error: 'Localização ou coordenadas são obrigatórias.' });
     }
 
@@ -30,4 +31,5 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar previsão do tempo' });
     }
 });
+
 module.exports = router;

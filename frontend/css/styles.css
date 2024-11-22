@@ -1,11 +1,24 @@
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Prosto+One&display=swap');
+
 /* Estilos gerais */
 body {
     font-family: 'Roboto', sans-serif;
-  }
-  
+    zoom: 0.75;
+    min-height: 133.3vh !important;
+}
+
 header {
   background-color: #1E202B;
   color: white;
+}
+
+header h1 {
+  font-family: "Prosto One";
+}
+
+nav ul li a {
+  font-size: 1.5rem;
 }
 
 .hero {
@@ -14,39 +27,43 @@ header {
 }
 
 .hero form input[type="text"] {
-  width: 90%;
-  height: 25px;
+  width: 80%;
+  height: 70px;
   padding: 20px;
-  font-size: 1rem;
-  border-radius: 24px;
+  font-size: 1.5rem;
+  border-radius: 35px;
 }
 
 .hero button {
-  height: 40px;
-  font-size: 1rem;
-  border-radius: 24px;
+  height: 70px;
+  font-size: 1.6rem;
+  border-radius: 35px;
+  background-color: #fd6f2d;
 }
 
-/* Geolocalização */
-.map-overlay {
-  width: 100%;
-  max-width: 1150px;
-  margin: 0 auto;
-  padding: 10px;
+.hero button:hover {
+  background-color: rgb(255, 81, 0);
 }
 
-.map-image {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  border-radius: 24px;
+/* Estilo para o botão com SVG */
+.location-btn {
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #fc5555;
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.location-button {
-  margin-top: -30% !important;
-  border-radius: 24px;
-  padding: 10px 30px;
+.location-btn:hover {
+  background-color: #ffffff;
+  color: #ff0000;
+  transform: scale(1.1);
 }
+
 
 /* Resultados da previsão */
 .card {
@@ -68,7 +85,14 @@ header {
 .bg-light-gray {
   background-color: #262936; /* Cor cinzenta clara */
 }
-  
+
+.star:hover{
+  transition: 500ms;
+  fill: rgb(255, 208, 0);
+  cursor: pointer;
+}
+
+/* footer */
 footer {
   background-color: #343a40;
   color: white;
@@ -77,4 +101,36 @@ footer {
 footer p {
   font-size: 1rem;
   margin: 0;
+}
+
+
+/* Body backgrounds */
+.bg-sunny {
+  background: url('../assets/imgs/sunny.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-cloudy {
+  background: url('../assets/imgs/cloudy.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-rainy {
+  background: url('../assets/imgs/rainy.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-thunderstorm {
+  background: url('../assets/imgs/thunder.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-snowy {
+  background: url('../assets/imgs/snowy.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-foggy {
+  background: url('../assets/imgs/clowdy.png') no-repeat center center fixed;
+  background-size: cover;
 }

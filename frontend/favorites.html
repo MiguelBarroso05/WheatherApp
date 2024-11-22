@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Weather Forecast</title>
+
+    <!-- icon -->
+    <link rel="icon" type="image/png" href="./assets/imgs/logo.png">
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700|Open+Sans:400,600" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+
+    <!-- bootstrap and css -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+
+  <body class="d-flex flex-column bg-dark">
+    <!-- navbar -->
+    <header class="text-white py-3">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="logo">
+          <h1>Weather Forecast</h1>
+        </div>
+        <nav>
+          <ul class="nav">
+            <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white font-weight-bold" href="favorites.html">Favorites</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="mostSearched.html">Most Searched</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-grow-1">
+      <!-- search box -->
+      <section class="hero text-white py-5">
+        <div class="container text-center">
+          <form id="weatherForm" class="form-inline justify-content-center align-items-center">
+            <div class="input-group col-12 col-md-10 mb-2">
+              <input type="text" id="locationInput" class="form-control" placeholder="Type a city name..." required />
+              <div class="input-group-append">
+                <span id="locationButton" class="input-group-text location-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="60" height="30" fill="currentColor">
+                    <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2 col-4 col-md-2">Search</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- weather prediction and forcast for favorite citys -->
+      <section id="weatherResults" class="container mt-5">
+          <div class="row" id="weatherContainer">
+          </div>
+      </section>
+    </main>
+
+    <!-- footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container text-center">
+        <p>&copy; 2024 Weather Forecast - All rights reserved</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/favorites.js"></script>
+  </body>
+</html>
