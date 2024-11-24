@@ -243,7 +243,8 @@ function addFavorite(city) {
             else
                 favorites.push(city);
 
-            localStorage.setItem('favorites', JSON.stringify(favorites));
+            favorites.sort((a, b) => a.localeCompare(b)); // Sort the favorites list alphabetically
+            localStorage.setItem('favorites', JSON.stringify(favorites)); // Save the updated list to localStorage
             updateFavoriteIconColor(favorites.includes(city));
         } 
         catch (error) {

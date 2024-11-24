@@ -35,7 +35,7 @@ async function loadMostSearchedCities() {
                 // Create a card for the city and its weather data
                 const cityCard = `
                     <div class="col-12 col-md-6 mb-4">
-                        <div class="card bg-dark text-white text-center p-4 shadow-lg">
+                        <div class="card bg-light-gray text-white text-center p-4 shadow-lg">
                             <h3 class="mb-3">${location.name}, ${location.region}</h3>
                             <div class="d-flex justify-content-center align-items-center mb-4">
                                 <div class="temperature-display me-3" style="font-size: 4rem; font-weight: bold;">
