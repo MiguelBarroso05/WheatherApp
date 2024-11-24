@@ -18,7 +18,8 @@ async function loadLastSearchedCity() {
         const data = await response.json();
         displayLastSearchedCity(data.currentWeather); // Display the data for the last searched city
         setWeatherBackground(data.currentWeather.current.condition.text.toLowerCase()); // Set background based on condition
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error fetching the last searched city weather data:', error);
     }
 }
@@ -42,7 +43,7 @@ document.getElementById('weatherForm').addEventListener('submit', async function
         //const responseMostSearched = await fetch(`http://localhost:3001/api/mostSearchedCity/insert?city=${location}`);
         
         if (!response.ok)
-            throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+            throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
 
         const data = await response.json();
 
@@ -53,13 +54,12 @@ document.getElementById('weatherForm').addEventListener('submit', async function
             addFavorite(data.currentWeather.location.name); // Add to favorites
         } 
         else 
-            throw new Error('Dados incompletos recebidos da API');
+            throw new Error('API connection error');
     } 
     catch (error) {
         // Display error message to the user
-        if (error.message.startsWith('Error HTTP:')) {
+        if (error.message.startsWith('Error HTTP:'))
             errorMessage = `Error on API: ${error.message}`;
-        }
 
         document.getElementById('weatherResults').innerHTML = `<div class="col-12 col-md-12 mb-4">
                                                                     <div class="card bg-dark text-white text-center p-4 shadow-lg">
