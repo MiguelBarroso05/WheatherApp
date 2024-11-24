@@ -39,6 +39,7 @@ document.getElementById('weatherForm').addEventListener('submit', async function
 
     try {
         const response = await fetch(`http://localhost:3001/api/weather?location=${location}`);
+        //const responseMostSearched = await fetch(`http://localhost:3001/api/mostSearchedCity/insert?city=${location}`);
         
         if (!response.ok)
             throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
@@ -56,7 +57,6 @@ document.getElementById('weatherForm').addEventListener('submit', async function
     } 
     catch (error) {
         // Display error message to the user
-          
         if (error.message.startsWith('Error HTTP:')) {
             errorMessage = `Error on API: ${error.message}`;
         }
